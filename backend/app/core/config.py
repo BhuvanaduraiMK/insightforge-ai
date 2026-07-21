@@ -1,12 +1,8 @@
-print("=== config.py started ===")
-
 from dotenv import load_dotenv
 from pathlib import Path
 import os
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
-
-print("=== .env loaded ===")
 
 APP_NAME = os.getenv("APP_NAME")
 APP_VERSION = os.getenv("APP_VERSION")
@@ -20,5 +16,3 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-print("DATABASE_URL =", DATABASE_URL)
-print("=== config.py finished ===")
