@@ -1,8 +1,12 @@
 from passlib.context import CryptContext
 from datetime import datetime, timedelta, timezone
-
-from jose import jwt
-
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
+from fastapi import Depends
+from fastapi import HTTPException, status
+from app.database.dependencies import get_db
+from sqlalchemy.orm import Session
+from app.models.user import User
 from app.core.config import (
     SECRET_KEY,
     ALGORITHM,
@@ -12,6 +16,10 @@ from app.core.config import (
 pwd_context = CryptContext(
     schemes=["bcrypt"],
     deprecated="auto"
+)
+
+oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl="/auth/login"
 )
 
 
@@ -48,3 +56,51 @@ def create_access_token(data: dict):
     )
 
     return encoded_jwt
+
+
+
+def decode_access_token(token: str):
+    try:
+        payload = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=[ALGORITHM]
+        )
+        return payload
+
+    except JWTError:
+        return None
+
+def get_current_token(
+    token: str = Depends(oauth2_scheme)
+):
+    return token
+
+
+def get_current_user(
+    token: str = Depends(oauth2_scheme),
+    db: Session = Depends(get_db)
+):
+    payload = decode_access_token(token)
+
+    if payload is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired token"
+        )
+
+    email = payload.get("sub")
+
+    user = (
+        db.query(User)
+        .filter(User.email == email)
+        .first()
+    )
+
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found"
+        )
+
+    return user

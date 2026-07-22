@@ -37,14 +37,18 @@ def register_user(db: Session, user: UserCreate):
 
     return new_user
 
-def login_user(db: Session, user: UserLogin):
+def login_user(
+    db: Session,
+    email: str,
+    password: str,
+):
     """
     Authenticate a user and return a JWT access token.
     """
 
     db_user = (
         db.query(User)
-        .filter(User.email == user.email)
+        .filter(User.email == email)
         .first()
     )
 
@@ -52,7 +56,7 @@ def login_user(db: Session, user: UserLogin):
         raise ValueError("Invalid email or password")
 
     if not verify_password(
-        user.password,
+        password,
         db_user.password
     ):
         raise ValueError("Invalid email or password")
