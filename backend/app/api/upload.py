@@ -3,6 +3,7 @@ import shutil
 
 import pandas as pd
 from fastapi import APIRouter, File, HTTPException, UploadFile
+from app.services.profiling_service import profile_dataset
 
 router = APIRouter(
     prefix="/upload",
@@ -28,19 +29,11 @@ async def upload_file(
         )
 
     try:
-        df = pd.read_csv(file_path)
-        rows, columns = df.shape
-        missing_values = df.isnull().sum().sum()
-        duplicate_rows = df.duplicated().sum()
+        profile = profile_dataset(file_path)
         return {
             "message": "File uploaded successfully",
             "filename": file.filename,
-            "rows": rows,
-            "columns_count": columns,
-            "missing_values": int(missing_values),
-            "duplicate_rows": int(duplicate_rows),
-            "columns": list(df.columns),
-            "preview": df.head().to_dict(orient="records")
+            **profile
         }
 
     except Exception as e:
