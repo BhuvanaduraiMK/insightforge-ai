@@ -6,7 +6,7 @@ from fastapi import APIRouter, File, HTTPException, UploadFile
 from app.services.profiling_service import profile_dataset
 from app.services.cleaning_service import clean_dataset
 from app.services.insights_service import generate_insights
-
+from app.services.health_service import calculate_health_score
 
 
 
@@ -40,16 +40,22 @@ async def upload_file(
         # Clean dataset
         df = clean_dataset(df)
 
-        # Generate business insights
-        insights = generate_insights(df)
+        # Calculate health score
+        health = calculate_health_score(df)
 
+         
         # Profile dataset
         profile = profile_dataset(df)
 
+        # Generate business insights
+        insights = generate_insights(df)
+
+        
         return {
             "message": "File uploaded successfully",
             "filename": file.filename,
             "business_insights": insights,
+            "dataset_health": health,
             **profile
         }
 
