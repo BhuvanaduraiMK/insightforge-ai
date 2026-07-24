@@ -4,6 +4,7 @@ import shutil
 import pandas as pd
 from fastapi import APIRouter, File, HTTPException, UploadFile
 from app.services.profiling_service import profile_dataset
+from app.services.cleaning_service import clean_dataset
 
 router = APIRouter(
     prefix="/upload",
@@ -29,7 +30,15 @@ async def upload_file(
         )
 
     try:
-        profile = profile_dataset(file_path)
+    # Read CSV
+        df = pd.read_csv(file_path)
+
+        # Clean dataset
+        df = clean_dataset(df)
+
+        # Profile dataset
+        profile = profile_dataset(df)
+
         return {
             "message": "File uploaded successfully",
             "filename": file.filename,
