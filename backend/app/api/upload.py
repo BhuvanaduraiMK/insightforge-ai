@@ -5,6 +5,10 @@ import pandas as pd
 from fastapi import APIRouter, File, HTTPException, UploadFile
 from app.services.profiling_service import profile_dataset
 from app.services.cleaning_service import clean_dataset
+from app.services.insights_service import generate_insights
+
+
+
 
 router = APIRouter(
     prefix="/upload",
@@ -36,12 +40,16 @@ async def upload_file(
         # Clean dataset
         df = clean_dataset(df)
 
+        # Generate business insights
+        insights = generate_insights(df)
+
         # Profile dataset
         profile = profile_dataset(df)
 
         return {
             "message": "File uploaded successfully",
             "filename": file.filename,
+            "business_insights": insights,
             **profile
         }
 

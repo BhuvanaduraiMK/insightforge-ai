@@ -33,6 +33,25 @@ def profile_dataset(df: pd.DataFrame):
     df.memory_usage(deep=True).sum() / 1024,2
     )
     
+    numeric_summary = (
+    df.describe()
+    .round(2)
+    .to_dict()
+    )
+
+    categorical_summary = {}
+
+    for column in categorical_columns:
+
+        summary = df[column].describe()
+
+        categorical_summary[column] = {
+            "count": int(summary["count"]),
+            "unique": int(summary["unique"]),
+            "top": summary["top"],
+            "frequency": int(summary["freq"])
+        }
+
 
     date_columns = []
 
@@ -53,6 +72,8 @@ def profile_dataset(df: pd.DataFrame):
     "categorical_columns": categorical_columns,
     "column_types": column_types,
     "memory_usage_kb": memory_usage_kb,
+    "numeric_summary": numeric_summary,
+    "categorical_summary": categorical_summary,
     "date_columns": date_columns,
     "columns": list(df.columns),
     "preview": df.head().to_dict(
