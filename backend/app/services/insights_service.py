@@ -49,8 +49,10 @@ def generate_insights(df: pd.DataFrame) -> list:
                     )       
 
     if "MembershipType" in df.columns:
-        most_popular = df["MembershipType"].value_counts().idxmax()
-        count = df["MembershipType"].value_counts().max()
+        membership_counts = df["MembershipType"].value_counts()
+
+        most_popular = membership_counts.idxmax()
+        count = membership_counts.max()
 
         insights.append(
             f"The most popular membership type is {most_popular} ({count} members)."
