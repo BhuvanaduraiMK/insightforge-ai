@@ -7,6 +7,10 @@ from app.services.profiling_service import profile_dataset
 from app.services.cleaning_service import clean_dataset
 from app.services.insights_service import generate_insights
 from app.services.health_service import calculate_health_score
+from app.services.correlation_service import correlation_analysis
+from app.services.outlier_service import detect_outliers
+from app.services.visualization_service import generate_histogram
+
 
 
 
@@ -40,22 +44,31 @@ async def upload_file(
         # Clean dataset
         df = clean_dataset(df)
 
+        #histogram
+        histogram = generate_histogram(df)
+
         # Calculate health score
         health = calculate_health_score(df)
 
-         
-        # Profile dataset
-        profile = profile_dataset(df)
+        correlations = correlation_analysis(df)
 
+        outliers = detect_outliers(df) 
+        
         # Generate business insights
         insights = generate_insights(df)
 
-        
+        # Profile dataset
+        profile = profile_dataset(df)
+
+
         return {
             "message": "File uploaded successfully",
             "filename": file.filename,
             "business_insights": insights,
             "dataset_health": health,
+            "correlation_analysis": correlations,
+            "outliers": outliers,
+            "histogram": histogram,
             **profile
         }
 
