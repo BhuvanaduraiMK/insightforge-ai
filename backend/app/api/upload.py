@@ -9,7 +9,11 @@ from app.services.insights_service import generate_insights
 from app.services.health_service import calculate_health_score
 from app.services.correlation_service import correlation_analysis
 from app.services.outlier_service import detect_outliers
-from app.services.visualization_service import generate_histogram
+from app.services.visualization_service import (
+    generate_histogram,
+    generate_bar_charts,
+    generate_boxplot
+)
 
 
 
@@ -47,6 +51,10 @@ async def upload_file(
         #histogram
         histogram = generate_histogram(df)
 
+        bar_chart = generate_bar_charts(df)
+
+        boxplot = generate_boxplot(df)
+
         # Calculate health score
         health = calculate_health_score(df)
 
@@ -69,6 +77,8 @@ async def upload_file(
             "correlation_analysis": correlations,
             "outliers": outliers,
             "histogram": histogram,
+            "bar_chart":bar_chart,
+            "boxplot":boxplot,
             **profile
         }
 
