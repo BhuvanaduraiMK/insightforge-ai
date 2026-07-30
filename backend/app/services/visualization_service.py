@@ -3,7 +3,7 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 
-
+#histograms
 def generate_histogram(df: pd.DataFrame):
     """
     Generate histogram for the first numeric column.
@@ -42,6 +42,7 @@ def generate_histogram(df: pd.DataFrame):
 
     return chart_path
 
+#bar chart
 def generate_bar_charts(df: pd.DataFrame):
     """
     Generate bar charts for categorical columns.
@@ -93,7 +94,7 @@ def generate_bar_charts(df: pd.DataFrame):
             return chart_paths
     return None 
 
-
+#box plot
 def generate_boxplot(df:pd.DataFrame):
     """
     Generate boxplot for numeric columns.

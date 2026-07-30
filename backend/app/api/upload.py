@@ -14,8 +14,7 @@ from app.services.visualization_service import (
     generate_bar_charts,
     generate_boxplot
 )
-
-
+from app.services.dashboard_service import generate_dashboard
 
 
 router = APIRouter(
@@ -69,17 +68,22 @@ async def upload_file(
         profile = profile_dataset(df)
 
 
+        
+        dashboard = generate_dashboard(
+            insights = insights,
+            health = health,
+            correlations = correlations,
+            outliers = outliers,
+            histogram = histogram,
+            bar_charts = bar_chart,
+            boxplots = boxplot,
+            profile = profile
+        )
+
         return {
             "message": "File uploaded successfully",
             "filename": file.filename,
-            "business_insights": insights,
-            "dataset_health": health,
-            "correlation_analysis": correlations,
-            "outliers": outliers,
-            "histogram": histogram,
-            "bar_chart":bar_chart,
-            "boxplot":boxplot,
-            **profile
+            "dashboard":dashboard
         }
 
     except Exception as e:
