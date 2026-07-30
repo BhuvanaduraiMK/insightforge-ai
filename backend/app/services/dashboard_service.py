@@ -15,7 +15,7 @@ def generate_dashboard(insights, health, correlations, outliers, histogram, bar_
         },
         "business_insights":insights,
         "health" : health,
-        "correlation":correlations,
+        "correlations":correlations,
         "outliers": outliers,
         "charts":{
             "histogram": histogram,
