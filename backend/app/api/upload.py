@@ -15,7 +15,7 @@ from app.services.visualization_service import (
     generate_boxplot
 )
 from app.services.dashboard_service import generate_dashboard
-
+from app.services.kpi_service import generate_kpis
 
 router = APIRouter(
     prefix="/upload",
@@ -47,6 +47,9 @@ async def upload_file(
         # Clean dataset
         df = clean_dataset(df)
 
+        #Kpis
+        kpis = generate_kpis(df)
+
         #histogram
         histogram = generate_histogram(df)
 
@@ -77,7 +80,8 @@ async def upload_file(
             histogram = histogram,
             bar_charts = bar_chart,
             boxplots = boxplot,
-            profile = profile
+            profile = profile,
+            kpis = kpis
         )
 
         return {

@@ -1,4 +1,4 @@
-def generate_dashboard(insights, health, correlations, outliers, histogram, bar_charts, boxplots, profile):
+def generate_dashboard(insights, health, correlations, outliers, histogram, bar_charts, boxplots, profile, kpis):
     """
     build dashboard response
     """
@@ -21,7 +21,8 @@ def generate_dashboard(insights, health, correlations, outliers, histogram, bar_
             "histogram": histogram,
             "bar_chart": bar_charts,
             "boxplots":boxplots
-        }
+        },
+        "kpis":kpis
     }
 
     return dashboard
