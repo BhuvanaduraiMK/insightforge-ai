@@ -16,6 +16,8 @@ from app.services.visualization_service import (
 )
 from app.services.dashboard_service import generate_dashboard
 from app.services.kpi_service import generate_kpis
+from app.services.qa_service import answer_question
+
 
 router = APIRouter(
     prefix="/upload",
@@ -70,7 +72,8 @@ async def upload_file(
         # Profile dataset
         profile = profile_dataset(df)
 
-
+        answer = answer_question(df, "How many duplicate rows here ?")
+        
         
         dashboard = generate_dashboard(
             insights = insights,
@@ -87,7 +90,8 @@ async def upload_file(
         return {
             "message": "File uploaded successfully",
             "filename": file.filename,
-            "dashboard":dashboard
+            "dashboard":dashboard,
+            "answer": answer
         }
 
     except Exception as e:
