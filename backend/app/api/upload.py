@@ -1,5 +1,6 @@
 import os
 import shutil
+from datetime import datetime
 
 import pandas as pd
 from fastapi import APIRouter, File, HTTPException, UploadFile
@@ -17,6 +18,8 @@ from app.services.visualization_service import (
 from app.services.dashboard_service import generate_dashboard
 from app.services.kpi_service import generate_kpis
 from app.services.qa_service import answer_question
+from app.services.report_service import generate_report
+from app.services.pdf_service import generate_pdf
 
 
 router = APIRouter(
@@ -73,7 +76,7 @@ async def upload_file(
         profile = profile_dataset(df)
 
         answer = answer_question(df, "How many duplicate rows here ?")
-        
+
         
         dashboard = generate_dashboard(
             insights = insights,
@@ -87,11 +90,27 @@ async def upload_file(
             kpis = kpis
         )
 
+        report = generate_report(
+            profile = profile,
+            health = health,
+            insights = insights,
+            kpis = kpis
+        )
+
+        os.makedirs("reports", exist_ok = True)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        pdf_path = f'reports/Business_Report_{timestamp}.pdf'
+        generate_pdf(report = report, filename = pdf_path)
+
+
         return {
             "message": "File uploaded successfully",
             "filename": file.filename,
             "dashboard":dashboard,
-            "answer": answer
+            "answer": answer,
+            "report": report,
+            "pdf_report": pdf_path
         }
 
     except Exception as e:

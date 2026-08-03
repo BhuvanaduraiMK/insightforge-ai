@@ -19,3 +19,12 @@ datasets/uploads/
 
 # Logs
 *.log
+
+# Generated files
+backend/uploads/
+backend/reports/
+backend/charts/
+
+# Python
+__pycache__/
+*.pyc
