@@ -55,12 +55,7 @@ def generate_report(profile, health, insights, kpis):
 
     report.append("")
 
-    report.append("KEY PERFORMANCE INDICATORS (KPIS)")
-    report.append("-"*50)
-
-    for kpi in kpis[:12]:
-        report.append(f"{kpi['title']} : {kpi['value']}")
-
+    #KPI section is rendered as a table in the PDF
     report.append("")
     report.append("=" * 50)
     report.append("End of Report")

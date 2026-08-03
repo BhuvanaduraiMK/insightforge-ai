@@ -101,7 +101,7 @@ async def upload_file(
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
         pdf_path = f'reports/Business_Report_{timestamp}.pdf'
-        generate_pdf(report = report, filename = pdf_path)
+        generate_pdf(report = report, kpis = kpis, filename = pdf_path)
 
 
         return {
