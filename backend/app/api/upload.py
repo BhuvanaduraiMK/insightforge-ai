@@ -1,6 +1,7 @@
 import os
 import shutil
 from datetime import datetime
+from fastapi import Form
 
 import pandas as pd
 from fastapi import APIRouter, File, HTTPException, UploadFile
@@ -17,9 +18,12 @@ from app.services.visualization_service import (
 )
 from app.services.dashboard_service import generate_dashboard
 from app.services.kpi_service import generate_kpis
-from app.services.qa_service import answer_question
+#from app.services.qa_service import answer_question
 from app.services.report_service import generate_report
 from app.services.pdf_service import generate_pdf
+from app.services.gemini_service import ask_gemini
+from app.services.context_service import build_business_context
+
 
 
 router = APIRouter(
@@ -32,7 +36,8 @@ UPLOAD_FOLDER = "uploads"
 
 @router.post("/")
 async def upload_file(
-    file: UploadFile = File(...)
+    file: UploadFile = File(...),
+    question: str = Form("Summarize this dataset.")
 ):
     file_path = os.path.join(
         UPLOAD_FOLDER,
@@ -75,7 +80,15 @@ async def upload_file(
         # Profile dataset
         profile = profile_dataset(df)
 
-        answer = answer_question(df, "How many duplicate rows here ?")
+        business_context = build_business_context(
+            profile=profile,
+            health=health,
+            insights = insights,
+            kpis=kpis
+
+        )
+
+        answer = ask_gemini(business_context, question)
 
         
         dashboard = generate_dashboard(
