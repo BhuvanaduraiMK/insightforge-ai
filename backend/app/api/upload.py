@@ -24,6 +24,7 @@ from app.services.pdf_service import generate_pdf
 from app.services.gemini_service import ask_gemini
 from app.services.context_service import build_business_context
 from app.storage import session_store
+from app.services.suggestion_service import generate_suggestions
 
 
 router = APIRouter(
@@ -80,6 +81,11 @@ async def upload_file(
         # Profile dataset
         profile = profile_dataset(df)
 
+        suggestions = generate_suggestions(
+            profile, kpis
+        )
+
+
         business_context = build_business_context(
             profile=profile,
             health=health,
@@ -125,7 +131,8 @@ async def upload_file(
             "dashboard":dashboard,
             "answer": answer,
             "report": report,
-            "pdf_report": pdf_path
+            "pdf_report": pdf_path,
+            "suggested_questions": suggestions
         }
 
     except Exception as e:
