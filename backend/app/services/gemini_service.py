@@ -108,7 +108,10 @@ Current Question:
 
             add_message("assistant", answer)
 
-            return answer
+            return {
+                "success": True,
+                "answer": answer
+            }
 
         except Exception as e:
 
@@ -120,10 +123,28 @@ Current Question:
                 continue
 
             if "429" in error:
-                return "Gemini quota exceeded. Please try again later."
+                return {
+                    "success": False,
+                    "error": {
+                        "type": "quota_exceeded",
+                        "message": "Gemini quota exceeded. Please try again later."
+                    }
+                }
 
             if "503" in error:
-                return "Gemini service is temporarily busy."
+                return {
+                    "success": False,
+                    "error": {
+                        "type": "service_busy",
+                        "message": "Gemini service is temporarily busy."
+                    }
+                }
 
-            print(error)
-            return "Unexpected error while contacting Gemini."
+            
+            return {
+                "success": False,
+                "error": {
+                    "type": "internal_error",
+                    "message": error
+                }
+            }
