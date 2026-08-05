@@ -23,7 +23,7 @@ from app.services.report_service import generate_report
 from app.services.pdf_service import generate_pdf
 from app.services.gemini_service import ask_gemini
 from app.services.context_service import build_business_context
-
+from app.storage import session_store
 
 
 router = APIRouter(
@@ -87,6 +87,8 @@ async def upload_file(
             kpis=kpis
 
         )
+
+        session_store.business_context = business_context
 
         answer = ask_gemini(business_context, question)
 
