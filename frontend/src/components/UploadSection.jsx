@@ -1,6 +1,10 @@
 import { useState } from "react";
 import API from "../services/api";
 import ReactMarkdown from "react-markdown";
+import KpiCards from "./KpiCards";
+import BusinessInsights from "./BusinessInsights";
+import SuggestedQuestions from "./SuggestedQuestions";
+
 
 function UploadSection() {
     const [file, setFile] = useState(null);
@@ -94,20 +98,9 @@ function UploadSection() {
                             {result.filename}
                         </p>
 
-                        <p>
-                            <strong>Rows:</strong>{" "}
-                            {result.dashboard.summary_cards.rows}
-                        </p>
+                        <KpiCards summary = {result.dashboard.summary_cards}/>
 
-                        <p>
-                            <strong>Columns:</strong>{" "}
-                            {result.dashboard.summary_cards.columns}
-                        </p>
-
-                        <p>
-                            <strong>Health Score:</strong>{" "}
-                            {result.dashboard.summary_cards.health_score}%
-                        </p>
+                        
                     </div>
 
                     {/* Executive Summary */}
@@ -133,6 +126,13 @@ function UploadSection() {
                                 </p>
                         )}
                     </div>
+                    <BusinessInsights
+                        insights={result.dashboard.business_insights}
+                    />
+                    
+                    <SuggestedQuestions
+                    questions = {result.suggested_questions}
+                    />
                 </>
             )}
         </div>
