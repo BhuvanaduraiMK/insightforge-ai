@@ -5,6 +5,8 @@ from app.api.auth import router as auth_router
 from app.api.health import router as health_router
 from app.core.config import APP_NAME, APP_VERSION
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+
 
 
 app = FastAPI(
@@ -12,6 +14,8 @@ app = FastAPI(
     version=APP_VERSION,
     description="AI-Powered Business Intelligence Platform"
 )
+
+app.mount("/reports", StaticFiles(directory="reports"), name="reports")
 
 app.add_middleware(
     CORSMiddleware,

@@ -130,6 +130,33 @@ function UploadSection() {
                         insights={result.dashboard.business_insights}
                     />
                     
+                    {/* PDF Report */}
+                    <div
+                        style={{
+                            marginTop:"20px",
+                            padding:"20px",
+                            border:"1px solid #ddd",
+                            borderRadius: "10px",
+                            background: "#ffffff",
+                            textAlign: "center",
+                        }}>
+                        <h2>Business Report</h2>
+                        <a href={`http://127.0.0.1:8000/${result.pdf_report}`}
+                            target="_blank" rel="noopener noreferrer"
+                            style ={{
+                                display:"inline-block",
+                                padding: "12px 24px",
+                                background: "#2563eb",
+                                color:"white",
+                                textDecoration: "none",
+                                borderRadius: "8px",
+                                fontWeight: "bold",
+                            }}>
+                                Download Business Report
+                            </a>
+
+                    </div>
+
                     <SuggestedQuestions
                     questions = {result.suggested_questions}
                     />
