@@ -1,7 +1,7 @@
 import os
 import shutil
 from datetime import datetime
-from fastapi import Form
+#from fastapi import Form
 
 import pandas as pd
 from fastapi import APIRouter, File, HTTPException, UploadFile
@@ -21,7 +21,7 @@ from app.services.kpi_service import generate_kpis
 #from app.services.qa_service import answer_question
 from app.services.report_service import generate_report
 from app.services.pdf_service import generate_pdf
-from app.services.gemini_service import ask_gemini
+#from app.services.gemini_service import ask_gemini
 from app.services.context_service import build_business_context
 from app.storage import session_store
 from app.services.ai_suggestion_service import generate_ai_suggestions
@@ -41,7 +41,7 @@ UPLOAD_FOLDER = "uploads"
 @router.post("/")
 async def upload_file(
     file: UploadFile = File(...),
-    question: str = Form("Summarize this dataset.")
+    
 ):
     file_path = os.path.join(
         UPLOAD_FOLDER,
@@ -85,6 +85,7 @@ async def upload_file(
         profile = profile_dataset(df)
 
         business_context = build_business_context(
+            df = df,
             profile=profile,
             health=health,
             insights = insights,
@@ -98,7 +99,7 @@ async def upload_file(
                     profile, kpis, insights
                 )
 
-        answer = ask_gemini(business_context, question)
+        #answer = ask_gemini(business_context, question)
 
         
         dashboard = generate_dashboard(
@@ -131,7 +132,6 @@ async def upload_file(
             "message": "File uploaded successfully",
             "filename": file.filename,
             "dashboard":dashboard,
-            "answer": answer,
             "report": report,
             "pdf_report": pdf_path,
             "suggested_questions": suggestions

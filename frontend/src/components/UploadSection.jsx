@@ -1,6 +1,6 @@
 import { useState } from "react";
 import API from "../services/api";
-import ReactMarkdown from "react-markdown";
+//import ReactMarkdown from "react-markdown";
 import KpiCards from "./KpiCards";
 import BusinessInsights from "./BusinessInsights";
 import SuggestedQuestions from "./SuggestedQuestions";
@@ -20,10 +20,6 @@ function UploadSection() {
         const formData = new FormData();
 
         formData.append("file", file);
-        formData.append(
-            "question",
-            "Summarize this dataset."
-        );
 
         try {
             setLoading(true);
@@ -38,14 +34,14 @@ function UploadSection() {
                 }
             );
 
-            console.log(response.data);
+            console.log("Upload response:", response.data);
             setResult(response.data);
         } catch (error) {
             console.error("Upload Error:", error);
 
             if (error.response) {
-                console.log(error.response.data);
-                alert(error.response.data.detail || "Backend Error");
+                console.log("Backend error:",error.response.data);
+                alert(error.response.data?.detail || "Backend Error");
             } else {
                 alert(error.message);
             }
@@ -80,8 +76,6 @@ function UploadSection() {
 
             {result && (
                 <>
-                    {/* Dataset Summary */}
-
                     <div
                         style={{
                             marginTop: "30px",
@@ -103,29 +97,6 @@ function UploadSection() {
                         
                     </div>
 
-                    {/* Executive Summary */}
-
-                    <div
-                        style={{
-                            marginTop: "20px",
-                            padding: "20px",
-                            border: "1px solid #ddd",
-                            borderRadius: "10px",
-                            background: "#fafafa",
-                        }}
-                    >
-                        <h2>Executive Summary</h2>
-
-                        {result.answer.success ? (
-                                <ReactMarkdown>
-                                    {result.answer.answer}
-                                </ReactMarkdown>
-                            ) : (
-                                <p style={{ color: "red" }}>
-                                    {result.answer.error.message}
-                                </p>
-                        )}
-                    </div>
                     <BusinessInsights
                         insights={result.dashboard.business_insights}
                     />
@@ -141,6 +112,11 @@ function UploadSection() {
                             textAlign: "center",
                         }}>
                         <h2>Business Report</h2>
+                        
+                        <p>
+                            Your business analysis report has been generated successfully.
+                        </p>
+
                         <a href={`http://127.0.0.1:8000/${result.pdf_report}`}
                             target="_blank" rel="noopener noreferrer"
                             style ={{
