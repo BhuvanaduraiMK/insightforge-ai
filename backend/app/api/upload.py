@@ -85,13 +85,17 @@ async def upload_file(
         profile = profile_dataset(df)
 
         business_context = build_business_context(
-            df = df,
             profile=profile,
             health=health,
             insights = insights,
-            kpis=kpis
+            kpis=kpis,
+            df = df
 
         )
+
+        print("\n================ BUSINESS CONTEXT ================\n")
+        print(business_context)
+        print("\n===================================================\n")
 
         session_store.business_context = business_context
 

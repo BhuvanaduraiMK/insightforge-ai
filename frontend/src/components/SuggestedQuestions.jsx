@@ -28,37 +28,33 @@ function SuggestedQuestions({ questions }) {
             );
 
             console.log("Full chat response:", response.data);
+            
+            if (response.data?.success === false) {
+                const errorMessage =
+                    response.data?.error?.message ||
+                    "Unable to generate an AI response.";
+
+                setAnswer(
+                    `⚠️ **AI Service Unavailable**\n\n${errorMessage}`
+                );
+
+                return;
+            }
+
+            const chatAnswer =
+                response.data?.answer ||
+                "No answer received.";
+
+            setAnswer(chatAnswer);
 
             let chatAnswer = response.data?.answer;
 
-            /*
-             * Handle backend/Gemini responses.
-             *
-             * Possible successful response:
-             * {
-             *   success: true,
-             *   answer: "Chennai has the highest..."
-             * }
-             *
-             * Possible quota error:
-             * {
-             *   success: false,
-             *   error: {
-             *      type: "quota_exceeded",
-             *      message: "Gemini quota exceeded..."
-             *   }
-             * }
-             */
-
-            // ---------------------------------------
-            // CASE 1: answer is an object
-            // ---------------------------------------
-
+           
             if (
                 typeof chatAnswer === "object" &&
                 chatAnswer !== null
             ) {
-                // Gemini/API error
+              
                 if (
                     chatAnswer.success === false &&
                     chatAnswer.error
@@ -83,9 +79,6 @@ function SuggestedQuestions({ questions }) {
                 }
             }
 
-            // ---------------------------------------
-            // CASE 2: answer is a JSON string
-            // ---------------------------------------
 
             if (typeof chatAnswer === "string") {
                 try {
@@ -106,7 +99,7 @@ function SuggestedQuestions({ questions }) {
                         chatAnswer = parsed.answer;
                     }
                 } catch {
-                    // Already normal text.
+                   
                 }
             }
 

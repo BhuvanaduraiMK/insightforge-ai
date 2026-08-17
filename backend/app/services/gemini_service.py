@@ -1,112 +1,288 @@
 import os
 import time
 
+from dotenv import load_dotenv
+from google import genai
 
 from app.services.conversation_service import (
     add_message,
     get_history
 )
-#import google.generativeai as genai
-from dotenv import load_dotenv
-from google import genai
 
 
 load_dotenv()
 
+
 client = genai.Client(
-    api_key = os.getenv("GEMINI_API_KEY")
-    )
+    api_key=os.getenv("GEMINI_API_KEY")
+)
+
 
 MODEL_NAME = "models/gemini-3-flash-preview"
 
+
 def ask_gemini(context: str, question: str):
     """
-    Send a prompt to Gemini and return the response.
+    Send a question to Gemini using the generated
+    business dataset context.
     """
 
-     # Save user's question
-    add_message("user", question)
+    # ==========================================================
+    # GET PREVIOUS CONVERSATION
+    # ==========================================================
 
-    # Build conversation history
     history_messages = get_history()[-10:]
 
-    history = ""
+    history_lines = []
 
     for message in history_messages:
-        history += f"{message['role'].capitalize()}: {message['content']}\n"
+
+        role = message.get(
+            "role",
+            "user"
+        )
+
+        content = message.get(
+            "content",
+            ""
+        )
+
+        history_lines.append(
+            f"{role.capitalize()}: {content}"
+        )
+
+    history = "\n".join(
+        history_lines
+    )
+
+    # ==========================================================
+    # PROMPT
+    # ==========================================================
 
     prompt = f"""
-You are a Senior Business Analyst.
+You are a Senior Business Analyst working with an uploaded
+business dataset.
 
-Your responsibilities are:
+Your job is to answer questions using ONLY the Dataset Context.
 
-• Analyze business datasets.
-• Answer ONLY using the provided dataset.
-• Never invent information.
-• If information is unavailable, clearly state that it is not present in the dataset.
-• Write professional business reports.
-• Explain findings in simple business language.
-• Follow the user's requested response style exactly.
+============================================================
+CORE RULE
+============================================================
 
-Response Rules:
+The Dataset Context is the source of truth.
 
-1. Use the dataset context as the source of truth.
-2. Use conversation history only to understand the user's previous questions and references.
-3. Never make assumptions or invent facts.
-4. If the answer is not available in the dataset, say:
-   "The uploaded dataset does not contain enough information."
-5. Follow the user's requested format exactly:
-   - One line → one line only.
-   - Two sentences → exactly two sentences.
-   - Bullet points → use bullet points.
-   - Table → return a table.
-   - Detailed report → include headings and explanations.
-   - Executive summary → concise business summary.
-6. Only provide Business Recommendations if:
-   - the user explicitly asks for recommendations, OR
-   - the user asks for analysis, report, business summary, or detailed explanation.
-7. If the current question refers to previous questions using words like:
-   - it
-   - this
-   - that
-   - these
-   - those
-   - they
-   - them
-   then use the conversation history to understand the reference.
-8. If the conversation history does not contain enough information, politely ask the user to clarify.
+Never invent information.
 
-Formatting Rules:
+Never assume information.
 
-• Use Markdown headings (#, ##) only for detailed reports.
-• For short answers, return plain text only.
-• Use bullet points only when appropriate.
-• Keep answers concise unless the user asks for details.
+Never use outside knowledge to create dataset facts.
 
-Dataset Context:
+Before saying that information is unavailable, search the
+ENTIRE Dataset Context carefully.
+
+If the requested information exists anywhere in the context,
+you MUST answer using that information.
+
+Only say:
+
+"The uploaded dataset does not contain enough information."
+
+when the required information genuinely does not exist
+in the Dataset Context.
+
+============================================================
+NUMERICAL QUESTIONS
+============================================================
+
+For questions involving:
+
+• average
+• mean
+• median
+• minimum
+• maximum
+• highest
+• lowest
+• count
+• percentage
+• churn rate
+• comparison
+• difference
+• correlation
+
+use the precomputed values from the Dataset Context.
+
+Do not invent alternative values.
+
+============================================================
+GROUP QUESTIONS
+============================================================
+
+For questions such as:
+
+"average X by Y"
+
+"highest X among Y"
+
+"lowest X among Y"
+
+"how does X vary across Y"
+
+use the corresponding:
+
+"Average <column> by <category>"
+
+section.
+
+============================================================
+CHURN QUESTIONS
+============================================================
+
+For churn questions use:
+
+• Churn Analysis
+• Churn Rate by Category
+
+For questions comparing churned and active members,
+use:
+
+• Satisfaction by Churn Status
+
+when available.
+
+============================================================
+BUSINESS RECOMMENDATIONS
+============================================================
+
+Provide recommendations ONLY when:
+
+1. The user explicitly asks for recommendations, OR
+2. The user asks for analysis, report, business summary,
+   or detailed explanation.
+
+Recommendations must be supported by numerical evidence
+from the Dataset Context.
+
+Do not create unsupported recommendations.
+
+============================================================
+CONVERSATION HISTORY
+============================================================
+
+Use conversation history ONLY to understand references such as:
+
+• it
+• this
+• that
+• these
+• those
+• they
+• them
+• previous result
+• previous question
+
+Do not use conversation history as a replacement for the
+Dataset Context.
+
+If the reference cannot be understood from the history,
+ask the user for clarification.
+
+============================================================
+RESPONSE FORMAT
+============================================================
+
+Follow the user's requested format.
+
+If the user asks for:
+
+One line:
+→ return one line.
+
+Two sentences:
+→ return exactly two sentences.
+
+Bullet points:
+→ use bullet points.
+
+Table:
+→ return a Markdown table.
+
+Detailed report:
+→ use Markdown headings and explanations.
+
+Executive summary:
+→ keep it concise and business-focused.
+
+Simple question:
+→ answer directly.
+
+Do not add unnecessary explanations.
+
+============================================================
+DATASET CONTEXT
+============================================================
 
 {context}
 
-Conversation History:
+============================================================
+CONVERSATION HISTORY
+============================================================
 
 {history}
 
-Current Question:
+============================================================
+CURRENT QUESTION
+============================================================
 
 {question}
+
+============================================================
+FINAL CHECK
+============================================================
+
+Before answering:
+
+1. Search the Dataset Context.
+2. Find the relevant section.
+3. Use the exact available value.
+4. Compare groups when required.
+5. Do not invent information.
+6. Only declare information unavailable if it is genuinely
+   absent.
 """
 
-    
+    # ==========================================================
+    # SAVE CURRENT QUESTION
+    # ==========================================================
+
+    add_message(
+        "user",
+        question
+    )
+
+    # ==========================================================
+    # CALL GEMINI
+    # ==========================================================
+
     for attempt in range(3):
+
         try:
+
             response = client.models.generate_content(
                 model=MODEL_NAME,
                 contents=prompt
             )
 
-            answer = response.text
+            answer = (
+                response.text
+                if response.text
+                else "Unable to generate an answer."
+            )
 
-            add_message("assistant", answer)
+            add_message(
+                "assistant",
+                answer
+            )
 
             return {
                 "success": True,
@@ -116,31 +292,63 @@ Current Question:
         except Exception as e:
 
             error = str(e)
-            print(f"Gemini Error (Attempt {attempt+1}/3): {error}")
 
-            if "503" in error and attempt < 2:
+            print(
+                f"Gemini Error "
+                f"(Attempt {attempt + 1}/3): "
+                f"{error}"
+            )
+
+            # --------------------------------------------------
+            # 503 - retry
+            # --------------------------------------------------
+
+            if (
+                "503" in error
+                and attempt < 2
+            ):
+
                 time.sleep(2)
+
                 continue
 
+            # --------------------------------------------------
+            # 429 - quota
+            # --------------------------------------------------
+
             if "429" in error:
+
                 return {
                     "success": False,
                     "error": {
                         "type": "quota_exceeded",
-                        "message": "Gemini quota exceeded. Please try again later."
+                        "message": (
+                            "Gemini quota exceeded. "
+                            "Please try again later."
+                        )
                     }
                 }
 
+            # --------------------------------------------------
+            # 503 - service busy
+            # --------------------------------------------------
+
             if "503" in error:
+
                 return {
                     "success": False,
                     "error": {
                         "type": "service_busy",
-                        "message": "Gemini service is temporarily busy."
+                        "message": (
+                            "Gemini service is temporarily busy."
+                        )
                     }
                 }
 
-            
+            # --------------------------------------------------
+            # Other errors
+            # --------------------------------------------------
+
             return {
                 "success": False,
                 "error": {
@@ -148,3 +356,13 @@ Current Question:
                     "message": error
                 }
             }
+
+    return {
+        "success": False,
+        "error": {
+            "type": "unknown_error",
+            "message": (
+                "Unable to generate AI response."
+            )
+        }
+    }
