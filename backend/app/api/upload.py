@@ -119,10 +119,12 @@ async def upload_file(
         )
 
         report = generate_report(
-            profile = profile,
-            health = health,
-            insights = insights,
-            kpis = kpis
+            report=report,
+            kpis=kpis,
+            filename=pdf_path,
+            histogram=histogram,
+            bar_charts=bar_chart,
+            boxplots=boxplot
         )
 
         os.makedirs("reports", exist_ok = True)

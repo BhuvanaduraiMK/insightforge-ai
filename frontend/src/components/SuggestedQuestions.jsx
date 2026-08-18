@@ -13,26 +13,49 @@ function SuggestedQuestions({ questions }) {
             return;
         }
 
+        const trimmedQuestion = question.trim();
+
         try {
             setLoading(true);
-            setSelectedQuestion(question);
+            setSelectedQuestion(trimmedQuestion);
             setAnswer("");
 
-            console.log("Sending question:", question);
+            console.log("Sending question:", trimmedQuestion);
 
-            const response = await API.post(
-                "/chat/",
-                {
-                    question: question.trim(),
-                }
-            );
+            const response = await API.post("/chat/", {
+                question: trimmedQuestion,
+            });
 
             console.log("Full chat response:", response.data);
-            
-            if (response.data?.success === false) {
+
+            /*
+             * Backend success:
+             * {
+             *   success: true,
+             *   answer: "..."
+             * }
+             *
+             * Backend error:
+             * {
+             *   success: false,
+             *   answer: "",
+             *   error: {
+             *      type: "quota_exceeded",
+             *      message: "..."
+             *   }
+             * }
+             */
+
+            const data = response.data;
+
+            // -----------------------------------------
+            // Backend returned an error
+            // -----------------------------------------
+
+            if (data?.success === false) {
                 const errorMessage =
-                    response.data?.error?.message ||
-                    "Unable to generate an AI response.";
+                    data?.error?.message ||
+                    "Unable to generate an AI answer.";
 
                 setAnswer(
                     `⚠️ **AI Service Unavailable**\n\n${errorMessage}`
@@ -41,36 +64,24 @@ function SuggestedQuestions({ questions }) {
                 return;
             }
 
-            const chatAnswer =
-                response.data?.answer ||
-                "No answer received.";
+            // -----------------------------------------
+            // Backend returned successful answer
+            // -----------------------------------------
 
-            setAnswer(chatAnswer);
+            let chatAnswer = data?.answer;
 
-            let chatAnswer = response.data?.answer;
-
-           
+            // Sometimes answer may itself be an object
             if (
                 typeof chatAnswer === "object" &&
                 chatAnswer !== null
             ) {
-              
-                if (
-                    chatAnswer.success === false &&
-                    chatAnswer.error
-                ) {
+                if (chatAnswer.success === false) {
                     chatAnswer =
-                        `⚠️ **AI Service Unavailable**\n\n` +
-                        `${chatAnswer.error.message || "Unable to get an AI response."}`;
-                }
-
-                // Normal successful object
-                else if (chatAnswer.answer) {
+                        chatAnswer?.error?.message ||
+                        "Unable to generate an AI answer.";
+                } else if (chatAnswer.answer) {
                     chatAnswer = chatAnswer.answer;
-                }
-
-                // Unknown object
-                else {
+                } else {
                     chatAnswer = JSON.stringify(
                         chatAnswer,
                         null,
@@ -79,27 +90,23 @@ function SuggestedQuestions({ questions }) {
                 }
             }
 
-
+            // Sometimes Gemini answer may contain JSON text
             if (typeof chatAnswer === "string") {
                 try {
                     const parsed = JSON.parse(chatAnswer);
 
-                    // Gemini/API error
                     if (
                         parsed?.success === false &&
                         parsed?.error
                     ) {
                         chatAnswer =
-                            `⚠️ **AI Service Unavailable**\n\n` +
-                            `${parsed.error.message || "Unable to get an AI response."}`;
-                    }
-
-                    // Successful JSON response
-                    else if (parsed?.answer) {
+                            parsed.error.message ||
+                            "Unable to generate an AI answer.";
+                    } else if (parsed?.answer) {
                         chatAnswer = parsed.answer;
                     }
                 } catch {
-                   
+                    // Normal text — nothing to parse.
                 }
             }
 
@@ -117,7 +124,8 @@ function SuggestedQuestions({ questions }) {
 
                 setAnswer(
                     error.response.data?.detail ||
-                    "⚠️ Unable to get an answer from the backend."
+                    error.response.data?.error?.message ||
+                    "⚠️ Backend error occurred."
                 );
             } else {
                 setAnswer(
@@ -132,12 +140,11 @@ function SuggestedQuestions({ questions }) {
     const handleCustomQuestion = (e) => {
         e.preventDefault();
 
-        if (!customQuestion.trim()) {
+        if (!customQuestion.trim() || loading) {
             return;
         }
 
         askQuestion(customQuestion);
-
         setCustomQuestion("");
     };
 
@@ -151,14 +158,15 @@ function SuggestedQuestions({ questions }) {
                 background: "#fafafa",
             }}
         >
-            {/* ================================= */}
-            {/* Suggested Questions                */}
-            {/* ================================= */}
+
+            {/* =========================================
+                SUGGESTED QUESTIONS
+            ========================================== */}
 
             <h2>Suggested Questions</h2>
 
             <div>
-                {questions &&
+                {questions && questions.length > 0 ? (
                     questions.map((question, index) => (
                         <button
                             key={index}
@@ -179,12 +187,17 @@ function SuggestedQuestions({ questions }) {
                         >
                             {question}
                         </button>
-                    ))}
+                    ))
+                ) : (
+                    <p>
+                        No suggested questions available.
+                    </p>
+                )}
             </div>
 
-            {/* ================================= */}
-            {/* Ask Your Own Question              */}
-            {/* ================================= */}
+            {/* =========================================
+                ASK YOUR OWN QUESTION
+            ========================================== */}
 
             <div
                 style={{
@@ -207,9 +220,7 @@ function SuggestedQuestions({ questions }) {
                         type="text"
                         value={customQuestion}
                         onChange={(e) =>
-                            setCustomQuestion(
-                                e.target.value
-                            )
+                            setCustomQuestion(e.target.value)
                         }
                         placeholder="Ask anything about your dataset..."
                         disabled={loading}
@@ -243,16 +254,14 @@ function SuggestedQuestions({ questions }) {
                                     : "pointer",
                         }}
                     >
-                        {loading
-                            ? "Asking..."
-                            : "Ask"}
+                        {loading ? "Asking..." : "Ask"}
                     </button>
                 </form>
             </div>
 
-            {/* ================================= */}
-            {/* Loading                            */}
-            {/* ================================= */}
+            {/* =========================================
+                LOADING
+            ========================================== */}
 
             {loading && (
                 <div
@@ -272,9 +281,9 @@ function SuggestedQuestions({ questions }) {
                 </div>
             )}
 
-            {/* ================================= */}
-            {/* AI Answer                         */}
-            {/* ================================= */}
+            {/* =========================================
+                AI ANSWER
+            ========================================== */}
 
             {!loading && answer && (
                 <div

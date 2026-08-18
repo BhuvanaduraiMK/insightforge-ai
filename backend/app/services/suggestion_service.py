@@ -3,8 +3,7 @@ def generate_suggestions(profile, kpis, insights):
     suggestions = []
 
     columns = [col.lower() for col in profile["columns"]]
-    print(profile["columns"])
-    print(type(profile["columns"]))
+    
 
     if 'revenue' in columns:
         suggestions.append(
