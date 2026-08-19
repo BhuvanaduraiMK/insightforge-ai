@@ -71,10 +71,6 @@ def build_business_context(
     - Explicit Q&A instructions
     """
 
-    # ==========================================================
-    # BASIC DATASET INFORMATION
-    # ==========================================================
-
     context = f"""
 # BUSINESS DATASET CONTEXT
 
@@ -103,9 +99,6 @@ you MUST use it.
 
 """
 
-    # ==========================================================
-    # COLUMN INFORMATION
-    # ==========================================================
 
     context += "\n## Dataset Columns\n"
 
@@ -123,9 +116,6 @@ you MUST use it.
             f"unique_values={unique_count}\n"
         )
 
-    # ==========================================================
-    # KPI SUMMARY
-    # ==========================================================
 
     context += "\n## Key Performance Indicators\n"
 
@@ -145,9 +135,6 @@ you MUST use it.
             f"- {title}: {value}\n"
         )
 
-    # ==========================================================
-    # BUSINESS INSIGHTS
-    # ==========================================================
 
     context += "\n## Business Insights\n"
 
@@ -156,10 +143,6 @@ you MUST use it.
         context += (
             f"- {insight}\n"
         )
-
-    # ==========================================================
-    # IDENTIFY IMPORTANT BUSINESS COLUMNS
-    # ==========================================================
 
     churn_column = find_column(
         df,
@@ -181,9 +164,6 @@ you MUST use it.
         ]
     )
 
-    # ==========================================================
-    # NUMERIC COLUMNS
-    # ==========================================================
 
     numeric_columns = df.select_dtypes(
         include="number"
@@ -223,9 +203,6 @@ you MUST use it.
             f"- Count: {series.count()}\n"
         )
 
-    # ==========================================================
-    # CATEGORICAL COLUMNS
-    # ==========================================================
 
     categorical_columns = df.select_dtypes(
         include=[
@@ -260,9 +237,6 @@ you MUST use it.
                 f"- {value}\n"
             )
 
-    # ==========================================================
-    # LOW CARDINALITY NUMERIC COLUMNS
-    # ==========================================================
 
     numeric_categorical_columns = []
 
@@ -306,9 +280,6 @@ you MUST use it.
                 f"{count} records\n"
             )
 
-    # ==========================================================
-    # CHURN ANALYSIS
-    # ==========================================================
 
     if churn_column is not None:
 
@@ -317,10 +288,6 @@ you MUST use it.
         context += (
             f"Churn column: {churn_column}\n"
         )
-
-        # ------------------------------------------------------
-        # Numeric churn
-        # ------------------------------------------------------
 
         if pd.api.types.is_numeric_dtype(
             df[churn_column]
@@ -370,9 +337,6 @@ you MUST use it.
                     f"{count} members\n"
                 )
 
-        # ------------------------------------------------------
-        # String / categorical churn
-        # ------------------------------------------------------
 
         else:
 
@@ -404,9 +368,6 @@ you MUST use it.
             "in the uploaded dataset.\n"
         )
 
-    # ==========================================================
-    # GROUPING COLUMNS
-    # ==========================================================
 
     grouping_columns = (
         categorical_columns
@@ -417,9 +378,6 @@ you MUST use it.
         ]
     )
 
-    # ==========================================================
-    # CATEGORICAL GROUP ANALYSIS
-    # ==========================================================
 
     context += (
         "\n## Categorical Group Analysis\n"
@@ -441,10 +399,6 @@ you MUST use it.
             f"\n### Group: {category}\n"
         )
 
-        # ------------------------------------------------------
-        # GROUP COUNTS
-        # ------------------------------------------------------
-
         counts = (
             df[category]
             .value_counts(
@@ -464,9 +418,6 @@ you MUST use it.
                 f"{int(count)} members\n"
             )
 
-        # ------------------------------------------------------
-        # GROUP AVERAGES
-        # ------------------------------------------------------
 
         for numeric_column in numeric_columns:
 
@@ -503,9 +454,6 @@ you MUST use it.
                     f"{value:.2f}\n"
                 )
 
-    # ==========================================================
-    # CHURN RATE BY CATEGORY
-    # ==========================================================
 
     if churn_column is not None:
 
@@ -567,10 +515,7 @@ you MUST use it.
                         f"{rate:.2f}% churn\n"
                     )
 
-    # ==========================================================
-    # SATISFACTION BY CHURN STATUS
-    # ==========================================================
-
+    
     if (
         churn_column is not None
         and satisfaction_column is not None
@@ -654,10 +599,7 @@ you MUST use it.
             "detected.\n"
         )
 
-    # ==========================================================
-    # CORRELATION ANALYSIS
-    # ==========================================================
-
+    
     context += (
         "\n## Numeric Correlations\n"
     )
@@ -709,10 +651,7 @@ you MUST use it.
 
                     added_pairs.add(pair)
 
-    # ==========================================================
-    # Q&A GUIDANCE
-    # ==========================================================
-
+    
     context += """
 
 ## Q&A Guidance

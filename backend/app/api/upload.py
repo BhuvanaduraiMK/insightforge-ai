@@ -1,5 +1,6 @@
 import os
 import shutil
+import traceback
 from datetime import datetime
 #from fastapi import Form
 
@@ -93,9 +94,7 @@ async def upload_file(
 
         )
 
-        print("\n================ BUSINESS CONTEXT ================\n")
-        print(business_context)
-        print("\n===================================================\n")
+        
 
         session_store.business_context = business_context
 
@@ -119,19 +118,18 @@ async def upload_file(
         )
 
         report = generate_report(
-            report=report,
-            kpis=kpis,
-            filename=pdf_path,
-            histogram=histogram,
-            bar_charts=bar_chart,
-            boxplots=boxplot
+            profile = profile,
+            health = health,
+            insights = insights,
+            kpis = kpis
         )
 
         os.makedirs("reports", exist_ok = True)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
         pdf_path = f'reports/Business_Report_{timestamp}.pdf'
-        generate_pdf(report = report, kpis = kpis, filename = pdf_path)
+        generate_pdf(report = report, kpis = kpis, filename = pdf_path,
+                     histogram = histogram, bar_charts = bar_chart, boxplots = boxplot)
 
 
         return {
@@ -144,6 +142,7 @@ async def upload_file(
         }
 
     except Exception as e:
+        traceback.print_exc()
         raise HTTPException(
             status_code=400,
             detail=f"Error reading CSV: {str(e)}"

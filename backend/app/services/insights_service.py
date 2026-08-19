@@ -114,7 +114,7 @@ def generate_insights(df: pd.DataFrame) -> list:
         churn_rate = df["Churned"].mean() * 100
 
         insights.append(
-            f"Average churn rate is {average_churn_rate:.2f}%."
+            f"Average churn rate is {churn_rate:.2f}%."
         )
 
     if "MembershipType" in df.columns:

@@ -4,10 +4,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-# ==========================================================
-# HISTOGRAMS
-# ==========================================================
-
 def generate_histogram(df: pd.DataFrame):
     """
     Generate histograms for numeric columns.
@@ -82,15 +78,11 @@ def generate_histogram(df: pd.DataFrame):
 
         chart_paths.append(chart_path)
 
-    if chart_paths:
+    if len(chart_paths) >0:
         return chart_paths
 
     return None
 
-
-# ==========================================================
-# BAR CHARTS
-# ==========================================================
 
 def generate_bar_charts(df: pd.DataFrame):
     """
@@ -173,15 +165,12 @@ def generate_bar_charts(df: pd.DataFrame):
 
         chart_paths.append(chart_path)
 
-    if chart_paths:
+    if len(chart_paths)>0:
         return chart_paths
 
     return None
 
 
-# ==========================================================
-# BOX PLOTS
-# ==========================================================
 
 def generate_boxplot(df: pd.DataFrame):
     """
@@ -268,7 +257,7 @@ def generate_boxplot(df: pd.DataFrame):
 
         chart_paths.append(chart_path)
 
-    if chart_paths:
+    if len(chart_paths)>0:
         return chart_paths
 
     return None

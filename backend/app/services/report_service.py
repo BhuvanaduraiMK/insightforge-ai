@@ -55,7 +55,7 @@ def generate_report(profile, health, insights, kpis):
 
     report.append("")
 
-    #KPI section is rendered as a table in the PDF
+    
     report.append("")
     report.append("=" * 50)
     report.append("End of Report")
@@ -64,61 +64,3 @@ def generate_report(profile, health, insights, kpis):
     return "\n".join(report)
     
 
-# def generate_report(
-#     profile,
-#     health,
-#     insights,
-#     kpis
-# ):
-#     """
-#     Generate a simple business analysis report.
-#     """
-
-#     report = []
-
-#     # ==========================
-#     # Report Title
-#     # ==========================
-#     report.append("=" * 50)
-#     report.append("BUSINESS ANALYSIS REPORT")
-#     report.append("=" * 50)
-#     report.append("")
-
-#     # ==========================
-#     # Dataset Summary
-#     # ==========================
-#     report.append("DATASET SUMMARY")
-#     report.append("-" * 50)
-#     report.append(f"Rows           : {profile['rows']}")
-#     report.append(f"Columns        : {profile['columns_count']}")
-#     report.append(f"Health Score   : {health['score']}%")
-#     report.append(f"Missing Values : {profile['missing_values']}")
-#     report.append(f"Duplicate Rows : {profile['duplicate_rows']}")
-#     report.append("")
-
-#     # ==========================
-#     # Business Insights
-#     # ==========================
-#     report.append("BUSINESS INSIGHTS")
-#     report.append("-" * 50)
-
-#     for insight in insights:
-#         report.append(f"• {insight}")
-
-#     report.append("")
-
-#     # ==========================
-#     # Key Performance Indicators
-#     # ==========================
-#     report.append("KEY PERFORMANCE INDICATORS")
-#     report.append("-" * 50)
-
-#     for kpi in kpis[:10]:
-#         report.append(f"{kpi['title']} : {kpi['value']}")
-
-#     report.append("")
-#     report.append("=" * 50)
-#     report.append("End of Report")
-#     report.append("=" * 50)
-
-#     return "\n".join(report)
