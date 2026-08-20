@@ -37,9 +37,17 @@ def correlation_analysis(df: pd.DataFrame):
             elif correlation <= -0.60:
                 strength = "Strong Negative"
 
-            else:
+            elif correlation <= -0.50:
                 strength = "Moderate Negative"
 
+            elif correlation > 0:
+                strength = "Weak Positive"
+
+            elif correlation < 0:
+                strength = "Weak Negative"
+
+            else:
+                strength = "No Correlation"
             if abs(correlation) >= 0.5:
                 results.append(
                     {
