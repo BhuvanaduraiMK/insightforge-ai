@@ -1,12 +1,13 @@
 function BusinessInsights({ insights}) {
     return (
         <div
+            className = "light-panel"
             style={{
                 marginTop: "30px",
                 padding: "20px",
                 border: "1px solid #ddd",
                 borderRadius: "10px",
-                background: "#fafafa",
+                background: "#f7f1e5",
             }}>
             <h2>Business Insights</h2>
             <ul>

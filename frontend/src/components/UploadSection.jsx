@@ -77,12 +77,13 @@ function UploadSection() {
             {result && (
                 <>
                     <div
+                        className = "light-panel"
                         style={{
                             marginTop: "30px",
                             padding: "20px",
                             border: "1px solid #ddd",
                             borderRadius: "10px",
-                            background: "#ffffff",
+                            background: "#f7f1e5",
                         }}
                     >
                         <h2>Dataset Summary</h2>
@@ -103,12 +104,13 @@ function UploadSection() {
                     
                     {/* PDF Report */}
                     <div
+                        className = "light-panel"
                         style={{
                             marginTop:"20px",
                             padding:"20px",
-                            border:"1px solid #ddd",
+                            border:"1px solid #d6b36a",
                             borderRadius: "10px",
-                            background: "#ffffff",
+                            background: "#f7f1e5",
                             textAlign: "center",
                         }}>
                         <h2>Business Report</h2>

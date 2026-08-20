@@ -48,10 +48,6 @@ function SuggestedQuestions({ questions }) {
 
             const data = response.data;
 
-            // -----------------------------------------
-            // Backend returned an error
-            // -----------------------------------------
-
             if (data?.success === false) {
                 const errorMessage =
                     data?.error?.message ||
@@ -64,13 +60,9 @@ function SuggestedQuestions({ questions }) {
                 return;
             }
 
-            // -----------------------------------------
-            // Backend returned successful answer
-            // -----------------------------------------
-
+        
             let chatAnswer = data?.answer;
-
-            // Sometimes answer may itself be an object
+        
             if (
                 typeof chatAnswer === "object" &&
                 chatAnswer !== null
@@ -90,7 +82,6 @@ function SuggestedQuestions({ questions }) {
                 }
             }
 
-            // Sometimes Gemini answer may contain JSON text
             if (typeof chatAnswer === "string") {
                 try {
                     const parsed = JSON.parse(chatAnswer);
@@ -106,7 +97,7 @@ function SuggestedQuestions({ questions }) {
                         chatAnswer = parsed.answer;
                     }
                 } catch {
-                    // Normal text — nothing to parse.
+                    // Normal text 
                 }
             }
 
@@ -150,18 +141,17 @@ function SuggestedQuestions({ questions }) {
 
     return (
         <div
+            className="light-panel"
             style={{
                 marginTop: "30px",
                 padding: "20px",
-                border: "1px solid #ddd",
+                border: "1px solid #d6b36a",
                 borderRadius: "10px",
-                background: "#fafafa",
+                background: "#f7f1e5",
             }}
         >
 
-            {/* =========================================
-                SUGGESTED QUESTIONS
-            ========================================== */}
+            {/* SUGGESTED QUESTIONS */}
 
             <h2>Suggested Questions</h2>
 
@@ -195,9 +185,7 @@ function SuggestedQuestions({ questions }) {
                 )}
             </div>
 
-            {/* =========================================
-                ASK YOUR OWN QUESTION
-            ========================================== */}
+            {/*ASK YOUR OWN QUESTION */}
 
             <div
                 style={{
@@ -259,16 +247,15 @@ function SuggestedQuestions({ questions }) {
                 </form>
             </div>
 
-            {/* =========================================
-                LOADING
-            ========================================== */}
+            {/* LOADING*/}
 
             {loading && (
                 <div
+                    className = "ai-answer"
                     style={{
                         marginTop: "20px",
                         padding: "20px",
-                        border: "1px solid #ddd",
+                        border: "1px solid #d6b36a",
                         borderRadius: "10px",
                         background: "#ffffff",
                     }}
@@ -281,12 +268,11 @@ function SuggestedQuestions({ questions }) {
                 </div>
             )}
 
-            {/* =========================================
-                AI ANSWER
-            ========================================== */}
+            {/* AI ANSWER*/}
 
             {!loading && answer && (
                 <div
+                    className="ai-answer"
                     style={{
                         marginTop: "20px",
                         padding: "20px",
