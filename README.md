@@ -128,6 +128,7 @@ Dashboard includes
 Users can upload a CSV dataset directly through the web interface.
 
 The backend processes the uploaded dataset and starts the analysis pipeline automatically.
+
 ---
 
 🧹 2. Automated Data Cleaning
@@ -139,6 +140,8 @@ Numeric missing-value handling
 Categorical missing-value handling
 
 This creates a cleaner dataset before analysis.
+
+---
 
 🔍 3. Dataset Profiling
 
@@ -157,6 +160,8 @@ Categorical statistics
 Potential date columns
 Dataset preview
 
+---
+
 📊 4. Automatic KPI Generation
 
 The KPI engine dynamically analyzes numeric columns and generates:
@@ -173,6 +178,8 @@ Duplicate rows
 
 The KPI system is designed to work with different datasets instead of depending entirely on a single business domain.
 
+---
+
 💡 5. Business Insights
 
 The platform generates business-oriented insights from the uploaded dataset.
@@ -185,6 +192,8 @@ Examples include:
 • Members attend an average of 3.54 sessions per week.
 ```
 The insight engine is being developed toward increasingly dataset-independent analysis so the same platform can be applied to different business datasets.
+
+---
 
 📈 6. Statistical Analysis
 
@@ -207,10 +216,12 @@ Distribution Analysis
 
 Automatically generates histograms for selected numerical variables.
 
+---
 
 📊 Data Visualizations
 
 The application automatically generates visualizations such as:
+
 
 📊 Bar Charts
 
@@ -222,6 +233,8 @@ Gender Distribution
 City Distribution
 Membership Type Distribution
 Goal Distribution
+
+
 📈 Histograms
 
 Used to understand numerical distributions.
@@ -241,6 +254,8 @@ Examples:
 Age Outlier Analysis
 Height Outlier Analysis
 Weight Outlier Analysis
+
+---
 
 📄 Automated Business Report
 
@@ -277,6 +292,9 @@ VISUAL ANALYSIS
     Categorical Analysis
     Outlier Analysis
 ```
+
+---
+
 🤖 AI-Powered Business Q&A
 
 One of the core features of InsightForge AI is the dataset-aware AI assistant.
@@ -313,6 +331,7 @@ Which category has the most records?
 What business recommendations can be made?
 ```
 
+---
 
 💬 AI Suggested Questions
 
@@ -331,6 +350,7 @@ What are the most important KPIs?
 What business recommendations can be made?
 ```
 
+---
 
 🏗️ System Architecture
 
@@ -370,6 +390,7 @@ What business recommendations can be made?
                                   │ Gemini AI   │
                                   └──────────────┘
 ```
+---
 
 🛠️ Technology Stack
 Frontend
@@ -379,11 +400,15 @@ Vite
 JavaScript
 CSS
 
+---
+
 Backend
 <p> <img src="https://skillicons.dev/icons?i=python,fastapi"/> </p>
 Python
 FastAPI
 Uvicorn
+
+---
 
 Data Analytics
 Pandas
@@ -392,9 +417,13 @@ Statistical Analysis
 IQR Outlier Detection
 Correlation Analysis
 
+---
+
 Visualization & Reporting
 Matplotlib
 ReportLab
+
+---
 
 Generative AI
 Google Gemini API
@@ -402,12 +431,15 @@ Dataset-aware prompting
 AI-generated business questions
 Context-based Q&A
 
+---
 
 Development Tools
 <p> <img src="https://skillicons.dev/icons?i=git,github,vscode"/> </p>
 Git
 GitHub
 Visual Studio Code
+
+---
 
 📁 Project Structure
 ```
@@ -451,6 +483,8 @@ AI-Business-Analysis/
 └── LICENSE
 ```
 
+---
+
 ⚙️ Installation & Setup
 1. Clone the Repository
    ```
@@ -458,6 +492,8 @@ AI-Business-Analysis/
 
     cd AI-Business-Analysis
    ```
+
+---
 
 🐍 Backend Setup
 
@@ -480,6 +516,8 @@ install dependencies
 pip install -r requirements.txt
 ```
 
+---
+
 🔐 Environment Variables
 
 Create a .env file inside the backend directory.
@@ -496,6 +534,8 @@ Use .env.example as a reference.
 uvicorn app.main:app --reload
 ```
 The FastAPI backend will be available locally.
+
+---
 
 
 ⚛️ Frontend Setup
@@ -515,6 +555,8 @@ Start the development server:
 npm run dev
 ```
 Open the local frontend URL shown by Vite.
+
+---
 
 🔄 Application Workflow
 ```
@@ -547,6 +589,8 @@ Open the local frontend URL shown by Vite.
 14. Gemini Generates Dataset-Based Answer
 ```
 
+---
+
 🧪 Testing
 
 The application should be tested with datasets from different domains.
@@ -559,6 +603,8 @@ Recommended test cases:
 ✓ Student Dataset
 ✓ General Business Dataset
 ```
+
+---
 
 🔐 Authentication & Database — Future Architecture
 
@@ -596,42 +642,46 @@ User-specific dashboards
 PostgreSQL persistence
 Role-based access
 
+---
+
 This keeps the current project focused while providing a clear path toward production deployment.
 
-🚀 Future Enhancements
-    🔐 User Authentication
-    🗄️ PostgreSQL Database Integration
-    📚 Dataset History
-    📄 Saved Report Management
-    ☁️ Cloud Deployment
-    🐳 Docker Containerization
-    📊 Advanced Interactive Charts
-    🔮 Predictive Analytics
-    🤖 Machine Learning Models
-    👥 Role-Based Dashboards
-    📈 Automated Business Forecasting
+🚀 Future Enhancements:
+
+🔐 User Authentication
+🗄️ PostgreSQL Database Integration
+📚 Dataset History
+📄 Saved Report Management
+☁️ Cloud Deployment
+🐳 Docker Containerization
+📊 Advanced Interactive Charts
+🔮 Predictive Analytics
+🤖 Machine Learning Models
+👥 Role-Based Dashboards
+📈 Automated Business Forecasting
 
 
 📚 What I Learned
 
 Through this project, I worked with:
 
-  Full-stack application development
-  FastAPI REST APIs
-  React frontend development
-  Pandas data processing
-  Automated data profiling
-  Statistical analysis
-  KPI engineering
-  Data visualization
-  PDF report generation
-  Generative AI integration
-  Prompt engineering
-  Dataset-aware AI systems
-  Git & GitHub
-  Environment variable management
-  Backend/frontend integration
+Full-stack application development
+FastAPI REST APIs
+React frontend development
+Pandas data processing
+Automated data profiling
+Statistical analysis
+KPI engineering
+Data visualization
+PDF report generation
+Generative AI integration
+Prompt engineering
+Dataset-aware AI systems
+Git & GitHub
+Environment variable management
+Backend/frontend integration
 
+---
 
 🎯 Project Highlights
 📊 Automated Analysis
@@ -658,6 +708,7 @@ Includes correlation and IQR-based outlier analysis.
 
 Combines a React frontend with a FastAPI backend.
 
+---
 
 📸 Screenshots
 Dashboard
@@ -665,9 +716,9 @@ Dashboard
 AI Q&A
 <p align="center"> <img src="frontend/src/assets/AI_QnA.png" alt="InsightForge AI Q&A" width="90%"> </p>
 Business Report
-<p align="center"> <img src="frontend/src/assets/Business_insights.png" alt="InsightForge AI Business Report" width="90%"> </p>
+<p align="center"> <img src="frontend/src/assets/Business_Insights.png" alt="InsightForge AI Business Report" width="90%"> </p>
 
-Add these screenshots to the repository before publishing the README.
+---
 
 👨‍💻 About the Developer
 Bhuvanadurai M
@@ -689,8 +740,12 @@ Machine Learning
 
 AI-ML Engineer / Data Engineer
 
+---
+
 🔗 Connect With Me
 <p align="center"> <a href="https://github.com/BhuvanaduraiMK"> <img src="https://img.shields.io/badge/GitHub-BhuvanaduraiMK-181717?style=for-the-badge&logo=github"/> </a> <a href="https://www.linkedin.com/in/bhuvanadurai-m-1312a7248/"> <img src="https://img.shields.io/badge/LinkedIn-Bhuvanadurai%20M-0077B5?style=for-the-badge&logo=linkedin"/> </a> </p>
+
+---
 
 ⭐ Support
 
