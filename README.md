@@ -128,7 +128,7 @@ Dashboard includes
 Users can upload a CSV dataset directly through the web interface.
 
 The backend processes the uploaded dataset and starts the analysis pipeline automatically.
-___________________________________________________________________________________________
+---
 
 🧹 2. Automated Data Cleaning
 
