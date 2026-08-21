@@ -1,6 +1,5 @@
 import { useState } from "react";
 import API from "../services/api";
-//import ReactMarkdown from "react-markdown";
 import KpiCards from "./KpiCards";
 import BusinessInsights from "./BusinessInsights";
 import SuggestedQuestions from "./SuggestedQuestions";

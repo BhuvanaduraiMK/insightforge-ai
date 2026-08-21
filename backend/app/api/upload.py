@@ -2,7 +2,7 @@ import os
 import shutil
 import traceback
 from datetime import datetime
-#from fastapi import Form
+
 
 import pandas as pd
 from fastapi import APIRouter, File, HTTPException, UploadFile
@@ -19,10 +19,8 @@ from app.services.visualization_service import (
 )
 from app.services.dashboard_service import generate_dashboard
 from app.services.kpi_service import generate_kpis
-#from app.services.qa_service import answer_question
 from app.services.report_service import generate_report
 from app.services.pdf_service import generate_pdf
-#from app.services.gemini_service import ask_gemini
 from app.services.context_service import build_business_context
 from app.storage import session_store
 from app.services.ai_suggestion_service import generate_ai_suggestions
@@ -101,9 +99,6 @@ async def upload_file(
         suggestions = generate_ai_suggestions(
                     profile, kpis, insights
                 )
-
-        #answer = ask_gemini(business_context, question)
-
         
         dashboard = generate_dashboard(
             insights = insights,

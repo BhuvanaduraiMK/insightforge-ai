@@ -28,23 +28,6 @@ function SuggestedQuestions({ questions }) {
 
             console.log("Full chat response:", response.data);
 
-            /*
-             * Backend success:
-             * {
-             *   success: true,
-             *   answer: "..."
-             * }
-             *
-             * Backend error:
-             * {
-             *   success: false,
-             *   answer: "",
-             *   error: {
-             *      type: "quota_exceeded",
-             *      message: "..."
-             *   }
-             * }
-             */
 
             const data = response.data;
 
@@ -151,7 +134,7 @@ function SuggestedQuestions({ questions }) {
             }}
         >
 
-            {/* SUGGESTED QUESTIONS */}
+        
 
             <h2>Suggested Questions</h2>
 
@@ -185,7 +168,7 @@ function SuggestedQuestions({ questions }) {
                 )}
             </div>
 
-            {/*ASK YOUR OWN QUESTION */}
+            
 
             <div
                 style={{
@@ -247,7 +230,7 @@ function SuggestedQuestions({ questions }) {
                 </form>
             </div>
 
-            {/* LOADING*/}
+            
 
             {loading && (
                 <div
@@ -268,7 +251,7 @@ function SuggestedQuestions({ questions }) {
                 </div>
             )}
 
-            {/* AI ANSWER*/}
+            
 
             {!loading && answer && (
                 <div
