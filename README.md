@@ -1,20 +1,135 @@
-<h1 align="center">📊 InsightForge AI</h1>
+<h1 align="center">🚀 InsightsForge AI</h1>
 
 <h3 align="center">
-An AI-Powered Data Analytics Platform for Automated Insights & Business Reporting
+AI-Powered Business Intelligence & Data Analysis Platform
 </h3>
 
 <p align="center">
-<img src="https://readme-typing-svg.herokuapp.com?font=Poppins&size=22&duration=3500&pause=1000&center=true&vCenter=true&width=700&lines=AI-Powered+Data+Analytics;Automated+Insights+%26+Reporting;Built+with+FastAPI+%2B+Python;Turning+Raw+Data+into+Decisions" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Poppins&size=24&duration=3000&pause=1000&center=true&vCenter=true&width=800&lines=AI+Business+Analyst;Data+Analysis+Platform;Automated+Business+Insights;AI-Powered+CSV+Analysis;FastAPI+%7C+React+%7C+Gemini+AI" />
 </p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
-<img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white"/>
-<img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white"/>
-<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>
-<img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge"/>
+
+<img src="https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
+
+<img src="https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white"/>
+
+<img src="https://img.shields.io/badge/React-Frontend-61DAFB?style=for-the-badge&logo=react&logoColor=black"/>
+
+<img src="https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=for-the-badge&logo=postgresql&logoColor=white"/>
+
+<img src="https://img.shields.io/badge/Gemini-AI-8E75B2?style=for-the-badge&logo=google&logoColor=white"/>
+
+<img src="https://img.shields.io/badge/Pandas-Data%20Analysis-150458?style=for-the-badge&logo=pandas&logoColor=white"/>
+
 </p>
+
+<p align="center">
+
+<img src="https://img.shields.io/badge/Status-Completed-success?style=for-the-badge"/>
+
+<img src="https://img.shields.io/badge/Project-AI%20%7C%20Data%20Analytics-blue?style=for-the-badge"/>
+
+<img src="https://img.shields.io/github/license/BhuvanaduraiMK/AI-Business-Analysis?style=for-the-badge"/>
+
+</p>
+
+---
+
+# 📌 Project Overview
+
+**InsightsForge AI** is an AI-powered Business Intelligence and Data Analysis platform designed to transform raw CSV datasets into meaningful business insights.
+
+The platform allows users to upload a dataset and automatically performs:
+
+- 📊 Dataset profiling
+- 🧹 Data quality analysis
+- 📈 KPI generation
+- 💡 Business insight generation
+- 🔗 Correlation analysis
+- 📦 Outlier detection
+- 📊 Automatic chart generation
+- 📋 Business dashboard generation
+- 🤖 AI-powered business questions
+- 💬 Natural-language dataset Q&A
+- 📄 Business report generation
+- 📑 PDF report export
+
+Instead of manually performing the same exploratory analysis for every dataset, InsightsForge AI automates the initial business-analysis workflow.
+
+---
+
+# 🎯 Problem Statement
+
+Business users often receive raw datasets without knowing:
+
+- How clean the data is
+- Which metrics are important
+- Which categories perform better
+- Whether unusual values exist
+- Which variables are correlated
+- What business questions should be asked
+- How to convert analysis into a professional report
+
+Traditional analysis requires manually performing these steps using tools such as Excel, SQL, Python, or Power BI.
+
+**InsightsForge AI aims to automate this first-level analysis process.**
+
+---
+
+# 💡 Solution
+
+InsightsForge AI provides a single workflow:
+
+```text
+CSV Dataset
+     │
+     ▼
+Dataset Upload
+     │
+     ▼
+Data Profiling
+     │
+     ├── Dataset Structure
+     ├── Missing Values
+     ├── Duplicate Rows
+     ├── Data Types
+     └── Statistical Summary
+     │
+     ▼
+Data Quality Analysis
+     │
+     ▼
+Automatic KPI Generation
+     │
+     ▼
+Business Insights
+     │
+     ├── Numeric Analysis
+     ├── Category Analysis
+     ├── Correlation Analysis
+     └── Outlier Detection
+     │
+     ▼
+Dashboard & Visualizations
+     │
+     ├── Bar Charts
+     ├── Histograms
+     └── Box Plots
+     │
+     ▼
+Gemini AI
+     │
+     ├── Suggested Questions
+     └── Dataset Q&A
+     │
+     ▼
+Business Report
+     │
+     ▼
+PDF Export
+
+```
 
 ---
 
