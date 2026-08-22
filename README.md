@@ -714,7 +714,7 @@ Combines a React frontend with a FastAPI backend.
 Dashboard
 <p align="center"> <img src="frontend/src/assets/Dashboard.png" alt="InsightForge AI Dashboard" width="100%"> </p>
 AI Q&A
-<p align="center"> <img src="frontend/src/assets/AI_QnA.png" alt="InsightForge AI Q&A" width="90%"> </p>
+<p align="center"> <img src="frontend/src/assets/AI_Suggestion_QnA.png" alt="InsightForge AI Q&A" width="90%"> </p>
 Business Report
 <p align="center"> <img src="frontend/src/assets/Business_Insights.png" alt="InsightForge AI Business Report" width="90%"> </p>
 
