@@ -733,6 +733,7 @@ Data Engineering
 Backend Development
 Generative AI
 Machine Learning
+DataBase
 
 🚀 Building practical AI and data-driven applications.
 
